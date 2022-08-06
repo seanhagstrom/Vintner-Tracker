@@ -4,14 +4,15 @@
   "description": "An application to assist amature vintners in tracking batches of wine.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "seed": "node ./db/seed.js"
   },
   "author": "Sean Hagstrom",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pg": "^8.7.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
