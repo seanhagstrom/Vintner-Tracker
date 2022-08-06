@@ -1,5 +1,15 @@
 const client = require('./client');
 
+async function dropTables() {
+  console.log('Starting to drop tables...');
+
+  await client.query(`
+  DROP TABLE IF EXISTS users;
+  `);
+
+  console.log('Tables successfully dropped!');
+}
+
 async function createTables() {
   console.log('Starting to build tables...');
 
@@ -14,8 +24,9 @@ async function createTables() {
   console.log('Finished building tables!');
 }
 
-async function buildDB() {
+async function rebuildDB() {
   try {
+    await dropTables();
     await createTables();
   } catch (error) {
     console.log('Error during buildDB');
@@ -23,6 +34,6 @@ async function buildDB() {
   }
 }
 
-buildDB()
+rebuildDB()
   .catch(console.error)
   .finally(() => client.end());
