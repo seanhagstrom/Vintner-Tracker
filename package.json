@@ -1,0 +1,11 @@
+{
+  "name": "vintner-tracker",
+  "version": "1.0.0",
+  "description": "An application to assist amature vintners in tracking batches of wine.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sean Hagstrom",
+  "license": "ISC"
+}
