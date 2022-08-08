@@ -6,7 +6,7 @@ async function createBatch({ vintnerId, start_date, initial_sg }) {
       rows: [batch],
     } = await client.query(
       `
-      INSERT INTO batch("vintnerId", start_date, initial_sg)
+      INSERT INTO batches("vintnerId", start_date, initial_sg)
       VALUES ($1, $2, $3)
       RETURNING *;
     `,

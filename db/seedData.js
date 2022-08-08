@@ -1,15 +1,20 @@
 const client = require('./client');
-const { createUser, createBatch } = require('./index');
+const {
+  createUser,
+  createBatch,
+  createType,
+  createIngredient,
+} = require('./index');
 
 async function dropTables() {
   console.log('Starting to drop tables...');
 
   await client.query(`
   DROP TABLE IF EXISTS batch_ingredients;
-  DROP TABLE IF EXISTS batch_type;
+  DROP TABLE IF EXISTS batch_types;
   DROP TABLE IF EXISTS ingredients;
-  DROP TABLE IF EXISTS type;
-  DROP TABLE IF EXISTS batch;
+  DROP TABLE IF EXISTS types;
+  DROP TABLE IF EXISTS batches;
   DROP TABLE IF EXISTS users;
   `);
 
@@ -27,7 +32,7 @@ async function createTables() {
     email VARCHAR(255) UNIQUE NOT NULL
   );
 
-  CREATE TABLE batch (
+  CREATE TABLE batches (
     id SERIAL PRIMARY KEY,
     "vintnerId" INTEGER REFERENCES users(id),
     start_date DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -38,7 +43,7 @@ async function createTables() {
     bottles_produced INTEGER
   );
 
-  CREATE TABLE type (
+  CREATE TABLE types (
     id SERIAL PRIMARY KEY,
     type VARCHAR(255) UNIQUE NOT NULL
   );
@@ -50,17 +55,17 @@ async function createTables() {
 
   CREATE TABLE batch_ingredients (
     id SERIAL PRIMARY KEY,
-    "batchId" INTEGER REFERENCES batch(id),
+    "batchId" INTEGER REFERENCES batches(id),
     "ingredientId" INTEGER REFERENCES ingredients(id),
     qty INTEGER,
     brand VARCHAR(255),
     UNIQUE ("batchId", "ingredientId")
   );
 
-  CREATE TABLE batch_type (
+  CREATE TABLE batch_types (
     id SERIAL PRIMARY KEY,
-    "batchId" INTEGER REFERENCES batch(id),
-    "typeId" INTEGER REFERENCES type(id),
+    "batchId" INTEGER REFERENCES batches(id),
+    "typeId" INTEGER REFERENCES types(id),
     UNIQUE ("batchId", "typeId")
   );
   `);
@@ -112,12 +117,70 @@ async function createInitialBatches() {
   }
 }
 
+async function createInitialTypes() {
+  console.log('Starting to create types...');
+  try {
+    const typesToCreate = [
+      { type: 'Merlot' },
+      { type: 'Sauvignon Blanc' },
+      { type: 'Cabernet Sauvignon' },
+      { type: 'Rose Wine' },
+      { type: 'Malbec' },
+      { type: 'Monastrell' },
+      { type: 'Pinot Grigio' },
+      { type: 'Chardonay' },
+      { type: 'Reisling' },
+      { type: 'Pinot Noir' },
+      { type: 'Prosecco' },
+      { type: 'Champagne' },
+      { type: 'Chianti' },
+      { type: 'Bordeaux' },
+      { type: 'Petite Sirah' },
+      { type: 'Syrah' },
+      { type: 'Tempranillo' },
+      { type: 'Grenache' },
+    ];
+    const types = await Promise.all(typesToCreate.map(createType));
+
+    console.log('Types created:');
+    console.log(types);
+    console.log('Finished creating types!');
+  } catch (error) {
+    console.error('Error creating types!');
+    throw error;
+  }
+}
+
+async function createInitialIngriedents() {
+  console.log('Starting to create ingredients...');
+  try {
+    const ingredientsToCreate = [
+      { ingredient: 'Water' },
+      { ingredient: 'Grape Juice' },
+      { ingredient: 'Grape Skins' },
+      { ingredient: 'Eye of Newt' }, //LOL maybe this should't be in wine!?!?
+    ];
+    const ingredients = await Promise.all(
+      ingredientsToCreate.map(createIngredient)
+    );
+
+    console.log('Ingredients created:');
+    console.log(ingredients);
+    console.log('Finished creating ingredients!');
+  } catch (error) {
+    console.error('Error creating ingredients!');
+    throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     await dropTables();
     await createTables();
     await createInitialUsers();
     await createInitialBatches();
+    await createInitialTypes();
+    await createInitialIngriedents();
   } catch (error) {
     console.log('Error during rebuildDB');
     throw error;
