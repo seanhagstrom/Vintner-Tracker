@@ -53,3 +53,16 @@ describe('createUser({username, password, email}', () => {
     expect(user).not.toHaveProperty('password');
   });
 });
+
+describe('getUserByUsername(username)', () => {
+  test('Returns the correct user', async () => {
+    const user = await getUserByUsername('Sean');
+
+    expect(user).toMatchObject({
+      id: expect.any(Number),
+      username: 'Sean',
+      password: 'not a great password',
+      email: 'couldbebetter@what.com',
+    });
+  });
+});
