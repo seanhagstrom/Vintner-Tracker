@@ -1,5 +1,16 @@
 const client = require('../../db/client');
-const { sum, createUser } = require('../../db/users');
+const { sum, createUser } = require('../../db');
+const { dropTables, createTables } = require('../../db/seedData');
+
+beforeAll(async () => {
+  await dropTables();
+  await createTables();
+});
+
+afterAll(async () => {
+  await client.end();
+  console.log('closed database');
+});
 
 test('adds 1 + 2 to equal 3', () => {
   expect(sum(1, 2)).toBe(3);
