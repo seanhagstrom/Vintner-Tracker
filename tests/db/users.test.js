@@ -1,5 +1,5 @@
 const client = require('../../db/client');
-const { createUser } = require('../../db');
+const { createUser, getUserByUsername } = require('../../db');
 const { dropTables, createTables } = require('../../db/seedData');
 
 beforeAll(async () => {
