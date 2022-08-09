@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "seed": "node ./db/seed.js",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles --watchAll"
   },
   "author": "Sean Hagstrom",
   "license": "ISC",
