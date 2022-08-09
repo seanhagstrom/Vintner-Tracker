@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "seed": "node ./db/seed.js",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "author": "Sean Hagstrom",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
+    "eslint-plugin-jest": "^26.8.2",
     "eslint": "^8.21.0",
     "eslint-plugin-react": "^7.30.1",
     "jest": "^28.1.3",
