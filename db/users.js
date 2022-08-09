@@ -18,6 +18,11 @@ async function createUser({ username, password, email }) {
   }
 }
 
+function sum(a, b) {
+  return a + b;
+}
+
 module.exports = {
   createUser,
+  sum,
 };
